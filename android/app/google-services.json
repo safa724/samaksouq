@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481260835074",
+    "project_id": "samaksouq-364c3",
+    "storage_bucket": "samaksouq-364c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481260835074:android:09621b424beb70a03df21b",
+        "android_client_info": {
+          "package_name": "com.samaksouq.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEBaZkX3JnA1UNZ-ZbcGVXsCnzsmyFOvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
