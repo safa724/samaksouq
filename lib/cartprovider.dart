@@ -74,11 +74,13 @@ class CartProvider with ChangeNotifier {
   }
 }
 
-
-  void _updateCartItemCount() {
-    // Calculate cart item count based on the length of _cartItems
-    _cartItemCount = _cartItems.length;
-  }
+void _updateCartItemCount() {
+  // Calculate cart item count based on the total quantity of items in the cart
+  _cartItemCount = _cartItems.fold<int>(
+    0,
+    (previousValue, cartItem) => previousValue + (cartItem['quantity'] as int),
+  );
+}
 
   // Method to add requests to the queue
   void _addToRequestQueue(Function requestFunction) {

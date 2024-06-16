@@ -89,7 +89,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       );
 
       // Call the API to add the product to the cart
-      final apiUrl = 'https://www.samaksouq.com/api/v2/carts/add';
+      final apiUrl = 'http://okaymart.in/api/v2/carts/add';
       final headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',
