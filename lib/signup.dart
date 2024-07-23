@@ -21,8 +21,8 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> _sendOTP() async {
     try {
-      // Remove any non-numeric characters from the phone number
-      String formattedPhoneNumber = "+966" + _phoneNumber.replaceAll(RegExp(r'\D'), '');
+      String formattedPhoneNumber =
+          "+966" + _phoneNumber.replaceAll(RegExp(r'\D'), '');
 
       await _auth.verifyPhoneNumber(
         phoneNumber: formattedPhoneNumber,
@@ -36,7 +36,9 @@ class _SignUpState extends State<SignUp> {
           });
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => OtpScreen(verificationId: _verificationId)),
+            MaterialPageRoute(
+                builder: (context) =>
+                    OtpScreen(verificationId: _verificationId)),
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -47,67 +49,62 @@ class _SignUpState extends State<SignUp> {
       );
     } catch (e) {
       print('Error sending OTP: $e');
-      // Handle error
     }
   }
 
- Future<void> _signup() async {
-  try {
-    // Remove any non-numeric characters from the phone number
-    String formattedPhoneNumber = "+966" + _phoneNumber.replaceAll(RegExp(r'\D'), '');
+  Future<void> _signup() async {
+    try {
+      String formattedPhoneNumber =
+          "+966" + _phoneNumber.replaceAll(RegExp(r'\D'), '');
 
-    var url = Uri.parse('https://samaksouq.com/api/v2/auth/signup');
-    var response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      body: jsonEncode({
-        'name': _name,
-        'email_or_phone': formattedPhoneNumber,
-        'password': '123456', // Provide a password for the user
-        'register_by': 'phone',
-      }),
-    );
+      var url = Uri.parse('https://samaksouq.com/api/v2/auth/signup');
+      var response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: jsonEncode({
+          'name': _name,
+          'email_or_phone': formattedPhoneNumber,
+          'password': '123456',
+          'register_by': 'phone',
+        }),
+      );
 
-    if (response.statusCode == 201) {
-      print('Sign Up Successful');
-      print(response.body);
-      print('OTP Sent');
-      await _sendOTP();
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Sign Up Successful. OTP Sent.'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } else if (response.statusCode == 400) {
-      // Assuming 400 status code indicates invalid credentials
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Invalid credentials. Please try again.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else if (response.statusCode == 409) {
-      // Assuming 409 status code indicates existing user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('User already exists. Please log in.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else {
-      print('Failed to initiate signup: ${response.reasonPhrase}');
+      if (response.statusCode == 201) {
+        print('Sign Up Successful');
+        print(response.body);
+        print('OTP Sent');
+        await _sendOTP();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sign Up Successful. OTP Sent.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else if (response.statusCode == 400) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid credentials. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else if (response.statusCode == 409) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('User already exists. Please log in.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else {
+        print('Failed to initiate signup: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
-    // Handle error
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +146,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                   width: 300,
                   height: 45,
-                  // Adjust the width as needed
                   child: Row(
                     children: [
                       Expanded(
@@ -180,12 +176,12 @@ class _SignUpState extends State<SignUp> {
                     borderRadius: BorderRadius.circular(5.0),
                   ),
                   width: 300,
-                  // Adjust the width as needed
                   child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("+966", style: TextStyle(color: Colors.black)),
+                        child:
+                            Text("+966", style: TextStyle(color: Colors.black)),
                       ),
                       VerticalDivider(
                         color: Colors.grey,
@@ -208,7 +204,6 @@ class _SignUpState extends State<SignUp> {
                     ],
                   ),
                 ),
-
                 SizedBox(
                   height: 40,
                 ),
@@ -220,7 +215,7 @@ class _SignUpState extends State<SignUp> {
                         color: Color.fromARGB(255, 21, 81, 129),
                         borderRadius: BorderRadius.circular(15.0),
                       ),
-                      width: 300, // Adjust the width as needed
+                      width: 300,
                       child: Center(
                           child: Text(
                         'Sign Up',
@@ -234,25 +229,26 @@ class _SignUpState extends State<SignUp> {
                 Text('              Already have an Account ?',
                     style: TextStyle(color: Colors.grey)),
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Login(initialPage: 'home')));
-                  },
-                  child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 21, 81, 129),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      width: 300, // Adjust the width as needed
-                      child: Center(
-                          child: Text('Log in',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 16))))),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Login(initialPage: 'home')));
+                    },
+                    child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 21, 81, 129),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        width: 300,
+                        child: Center(
+                            child: Text('Log in',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 16))))),
               ])
             ],
           ),

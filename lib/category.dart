@@ -7,18 +7,18 @@ import 'package:ibeuty/userprofile.dart';
 
 class CategoryScreen extends StatelessWidget {
   final List<Category> categories = [
-    Category(name: 'Fishes & Seafood', imageAsset: '',)
-    ];
-   
+    Category(
+      name: 'Fishes & Seafood',
+      imageAsset: '',
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CustomBottomNavigationBar(
-        
         currentIndex: 1,
         onTap: (int index) {
-          // Handle navigation here
           if (index == 0) {
             Navigator.pushReplacement(
               context,
@@ -27,31 +27,25 @@ class CategoryScreen extends StatelessWidget {
           } else if (index == 3) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) =>
-                   CartPage()
-              ),
+              MaterialPageRoute(builder: (context) => CartPage()),
             );
           } else if (index == 4) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => UserProfileScreen()),
             );
-            
           }
         },
-        
-      )
-    ,
-      
-   drawer: AppDrawer(),
-        appBar: AppBar(
-        
-          centerTitle: true,
-          title: Text('Category',style: TextStyle(color:Color.fromARGB(255, 4, 74, 131)),),
+      ),
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Category',
+          style: TextStyle(color: Color.fromARGB(255, 4, 74, 131)),
         ),
-     
-body: (categories == null)
+      ),
+      body: (categories == null)
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: categories.length,
@@ -59,20 +53,18 @@ body: (categories == null)
                 final category = categories[index];
                 return Container(
                   height: 70,
-                   decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      margin: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  margin: EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading:Container(
+                    leading: Container(
                       color: Colors.transparent,
                       height: 40,
                       width: 40,
-                      child: Image.asset(
-                           'images/fish.png'
-                          ),
-                    ), 
+                      child: Image.asset('images/fish.png'),
+                    ),
                     title: Text(category.name),
                     onTap: () {
                       // Navigator.push(
@@ -87,12 +79,8 @@ body: (categories == null)
               },
             ),
     );
-    
   }
 }
-
-
-
 
 class Category {
   final String name;

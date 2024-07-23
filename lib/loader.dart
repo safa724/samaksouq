@@ -12,18 +12,16 @@ class QuantityChangeLoader extends StatelessWidget {
     return isLoading
         ? Stack(
             children: [
-              // Background with blur effect
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: Container(
-                  color: Colors.black.withOpacity(0.5), // Adjust opacity as needed
+                  color: Colors.black.withOpacity(0.5),
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                 ),
               ),
-              // Loader
               Center(
-                child: CircularProgressIndicator(), // or your custom loader widget
+                child: CircularProgressIndicator(),
               ),
             ],
           )

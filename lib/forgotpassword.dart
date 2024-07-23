@@ -24,11 +24,8 @@ class ForgotPasswordScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Add your logic for handling the "Reset Password" button press
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
-             //   primary: Colors.pink,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),

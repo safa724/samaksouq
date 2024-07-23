@@ -19,25 +19,25 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   Future<void> fetchLocations() async {
-    final response = await http.get(Uri.parse('http://samaksouq.com/api/v2/seller_location'));
+    final response = await http
+        .get(Uri.parse('http://samaksouq.com/api/v2/seller_location'));
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       setState(() {
-        locationList = List<Map<String, dynamic>>.from(responseData['location'].map((location) => {
-          'id': location['id'],
-          'name': location['name'],
-        }));
+        locationList = List<Map<String, dynamic>>.from(
+            responseData['location'].map((location) => {
+                  'id': location['id'],
+                  'name': location['name'],
+                }));
         isLoading = false;
       });
     } else {
-      // Handle error
       print('Failed to load locations');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       appBar: AppBar(
         title: Text('Choose Your Location'),
@@ -63,14 +63,16 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                     margin: EdgeInsets.all(8.0),
                     child: ListTile(
-                      leading: Icon(Icons.location_pin, color: Color.fromARGB(255, 1, 39, 70)),
-                      title: Text(location['name'], style: TextStyle(fontSize: 15)),
+                      leading: Icon(Icons.location_pin,
+                          color: Color.fromARGB(255, 1, 39, 70)),
+                      title: Text(location['name'],
+                          style: TextStyle(fontSize: 15)),
                       onTap: () {
-  Navigator.pop(context, {
-    'id': location['id'],
-    'name': location['name']
-  });},
-                      trailing: Icon(Icons.arrow_forward_ios_rounded, color: Color.fromARGB(255, 1, 39, 70)),
+                        Navigator.pop(context,
+                            {'id': location['id'], 'name': location['name']});
+                      },
+                      trailing: Icon(Icons.arrow_forward_ios_rounded,
+                          color: Color.fromARGB(255, 1, 39, 70)),
                     ),
                   );
                 },

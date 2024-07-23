@@ -15,7 +15,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   bool _isLoading = true;
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +42,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
               _controller.complete(webViewController);
             },
             navigationDelegate: (NavigationRequest request) async {
-              if (request.url.startsWith('https://samaksouq.com/order-success')) {
-                // Handle successful payment redirection
-                // Navigate back to previous screen or show success message in your app
-                // You can use Navigator.pop(context) to go back
-                // Or display a success message using a dialog or a snackbar
+              if (request.url
+                  .startsWith('https://samaksouq.com/order-success')) {
                 final WebViewController controller = await _controller.future;
-                await controller.loadUrl('about:blank'); // Load blank page to stop loading the current page
-                // Navigate to success page in the app
-                Navigator.pushReplacement(context,
-  MaterialPageRoute(builder: (context) => PaymentSuccessfulPage()));
+                await controller.loadUrl('about:blank');
+
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PaymentSuccessfulPage()));
                 return NavigationDecision.prevent;
               }
               return NavigationDecision.navigate;

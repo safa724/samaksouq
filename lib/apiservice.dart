@@ -76,7 +76,7 @@ Future<void> fetchProducts(BuildContext context) async {
     if (productsResponse.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(productsResponse.body);
 
-      // Check if 'data' key exists and is a list
+     
       if (responseData.containsKey('data') && responseData['data'] is List) {
         final List<dynamic> productsJson = responseData['data'];
         products = productsJson.map((json) => Product.fromJson(json)).toList();

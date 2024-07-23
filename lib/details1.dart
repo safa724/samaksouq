@@ -24,22 +24,22 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  int quantity = 1; // Initial quantity
+  int quantity = 1;
   ApiService apiService = ApiService();
   bool isLoggedIn = false;
   bool isLoading = false;
-  bool showAllProducts = false; // New state to control showing all products
+  bool showAllProducts = false;
 
   @override
   void initState() {
     super.initState();
     checkLoginStatus();
-    fetchProducts(); // Call the method to fetch products when the widget is initialized
+    fetchProducts();
   }
 
   Future<void> fetchProducts() async {
-    await apiService.fetchTodaydealProducts(context); // Fetch products
-    setState(() {}); // Update the UI
+    await apiService.fetchTodaydealProducts(context);
+    setState(() {});
   }
 
   Future<void> checkLoginStatus() async {
@@ -52,14 +52,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Future<void> _addToCart(BuildContext context) async {
     try {
       setState(() {
-        isLoading = true; // Set loading to true when adding to cart
+        isLoading = true;
       });
 
-      // Check if the user is logged in
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
       if (!isLoggedIn) {
-        // If user is not logged in, navigate to the login screen
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Login(initialPage: 'home')),
@@ -67,14 +65,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         return;
       }
 
-      // Get the selected product
       Product selectedProduct = widget.products[widget.selectedProductIndex];
 
-      // Get the user ID from SharedPreferences
       String userId = prefs.getString('userId') ?? '';
       String accessToken = prefs.getString('accessToken') ?? '';
 
-      // Create a new instance of the product to add to the cart
       Product productToAdd = Product(
         id: selectedProduct.id,
         name: selectedProduct.name,
@@ -88,7 +83,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         quantity: quantity,
       );
 
-      // Call the API to add the product to the cart
       final apiUrl = 'http://okaymart.in/api/v2/carts/add';
       final headers = {
         'Content-Type': 'application/json',
@@ -97,7 +91,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       final requestBody = {
         'id': productToAdd.id,
         'variant': 'None',
-        'user_id': userId, // Use the retrieved user ID
+        'user_id': userId,
         'quantity': productToAdd.quantity,
       };
 
@@ -108,7 +102,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       );
 
       if (response.statusCode == 200) {
-        // If the API call is successful, show a SnackBar with the message "Added to Cart"
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -118,15 +111,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Navigate to the cart screen when "Go to Cart" is pressed
-                    Navigator.pop(context); // Close the ProductDetailScreen
-                    // Navigate to the cart screen
-                    // You can replace this with your actual cart screen route
+                    Navigator.pop(context);
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => CartPage(),
-                        //CartPage(cartItems: context.read<CartProvider>().cartItems),
                       ),
                     );
                   },
@@ -137,14 +127,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               ],
             ),
-            backgroundColor:  Color.fromARGB(255, 17, 61, 97), // Set background color to blue
+            backgroundColor: Color.fromARGB(255, 17, 61, 97),
             duration: Duration(seconds: 2),
           ),
         );
       } else {
-        // If the API call fails, show the error message from the response
         final responseBody = jsonDecode(response.body);
-        String errorMessage = responseBody['message'] ?? 'Failed to add to Cart';
+        String errorMessage =
+            responseBody['message'] ?? 'Failed to add to Cart';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMessage),
@@ -162,21 +152,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       );
     } finally {
       setState(() {
-        isLoading = false; // Set loading to false after adding to cart
+        isLoading = false;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Access the selected product from the products list
     Product product = widget.products[widget.selectedProductIndex];
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Product', style: TextStyle(color: const Color.fromARGB(255, 5, 51, 88))),
+        title: Text('Product',
+            style: TextStyle(color: const Color.fromARGB(255, 5, 51, 88))),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -188,9 +178,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: () {
-              // Add your logic for sharing the product
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -275,7 +263,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                           Text(
                             '$quantity',
-                            style: TextStyle(color: Color.fromARGB(255, 6, 67, 117)),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 6, 67, 117)),
                           ),
                           IconButton(
                             icon: Icon(Icons.add),
@@ -294,7 +283,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 'Description: Product description goes here',
                 style: TextStyle(fontSize: 15.0),
                 maxLines: showAllProducts ? null : 2,
-                overflow: showAllProducts ? TextOverflow.visible : TextOverflow.ellipsis,
+                overflow: showAllProducts
+                    ? TextOverflow.visible
+                    : TextOverflow.ellipsis,
               ),
               SizedBox(height: 8),
               Align(
@@ -319,10 +310,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: apiService.todaydealProducts.map((todaydealProducts) {
+                  children:
+                      apiService.todaydealProducts.map((todaydealProducts) {
                     return SizedBox(
                       width: 150,
-                      child: ProductCard(product: todaydealProducts, products: apiService.todaydealProducts),
+                      child: ProductCard(
+                          product: todaydealProducts,
+                          products: apiService.todaydealProducts),
                     );
                   }).toList(),
                 ),
@@ -334,7 +328,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Container(
                     color: Colors.black.withOpacity(0.5),
                     child: Center(
-                      child: CircularProgressIndicator(color:Color.fromARGB(255, 17, 61, 97) ,),
+                      child: CircularProgressIndicator(
+                        color: Color.fromARGB(255, 17, 61, 97),
+                      ),
                     ),
                   ),
                 )
@@ -355,24 +351,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   child: Container(
                     height: 45,
                     child: Center(
-                      child:Text(
-                              'Add to Cart',
-                              style: TextStyle(color: Colors.white, fontSize: 17),
-                            ),
+                      child: Text(
+                        'Add to Cart',
+                        style: TextStyle(color: Colors.white, fontSize: 17),
+                      ),
                     ),
                     color: Color.fromARGB(255, 15, 158, 75),
                   ),
                 ),
               ),
-              SizedBox(width: 8), // Add some spacing between the buttons
+              SizedBox(width: 8),
               Expanded(
-                // use Expanded widget to distribute available space evenly
                 child: Container(
                   height: 45,
                   child: InkWell(
-                    onTap: () {
-                      // Handle Buy Now action
-                    },
+                    onTap: () {},
                     child: Center(
                       child: Text(
                         'Buy Now',
@@ -394,7 +387,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     setState(() {
       quantity += change;
       if (quantity < 1) {
-        quantity = 1; // Ensure quantity is always at least 1
+        quantity = 1;
       }
     });
   }

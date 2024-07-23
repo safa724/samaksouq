@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ibeuty/cartprovider.dart'; // Import the CartProvider
+import 'package:ibeuty/cartprovider.dart';
 import 'package:provider/provider.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -13,7 +13,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context); // Access the CartProvider
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return Stack(
       children: [
@@ -48,7 +48,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               icon: Stack(
                 children: [
                   Icon(Icons.shopping_cart),
-                  if (cartProvider.cartItemCount > 0) // Use cartItemCount from provider
+                  if (cartProvider.cartItemCount > 0)
                     Positioned(
                       top: 0,
                       right: 0,

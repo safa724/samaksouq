@@ -7,72 +7,68 @@ import 'package:ibeuty/signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  final String initialPage; // Parameter to indicate initial page
+  final String initialPage;
 
   const Login({Key? key, required this.initialPage}) : super(key: key);
-  
+
   @override
   _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
   TextEditingController phoneController = TextEditingController();
-  
 
- Future<void> signInUser() async {
-  String phoneNumber = phoneController.text.trim();
-  final response = await http.post(
-    Uri.parse('https://www.samaksouq.com/api/v2/auth/login'),
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest',
-    },
-    body: jsonEncode({
-      'email': phoneNumber,
-      'password': '123456',
-      'identity_matrix': 'ec669dad-9136-439d-b8f4-80298e7e6f37',
-    }),
-  );
+  Future<void> signInUser() async {
+    String phoneNumber = phoneController.text.trim();
+    final response = await http.post(
+      Uri.parse('https://www.samaksouq.com/api/v2/auth/login'),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: jsonEncode({
+        'email': phoneNumber,
+        'password': '123456',
+        'identity_matrix': 'ec669dad-9136-439d-b8f4-80298e7e6f37',
+      }),
+    );
 
-  print('Response: ${response.body}'); // Print the entire response body
+    print('Response: ${response.body}');
 
-  if (response.statusCode == 200) {
-    // Successful login
-    Map<String, dynamic> responseData = json.decode(response.body);
-    String accessToken = responseData['access_token'];
-    String userId = responseData['user']['id'].toString();
-    String userName = responseData['user']['name'];
-    String userEmail = responseData['user']['email'];
-    String userPhone = responseData['user']['phone'];
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      String accessToken = responseData['access_token'];
+      String userId = responseData['user']['id'].toString();
+      String userName = responseData['user']['name'];
+      String userEmail = responseData['user']['email'];
+      String userPhone = responseData['user']['phone'];
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', true);
-    prefs.setString('userId', userId); 
-    prefs.setString('userName', userName);
-    prefs.setString('userEmail', userEmail);
-    prefs.setString('accessToken', accessToken);
-    prefs.setString('userPhone', userPhone);
-    
-    if (widget.initialPage == 'home') { // Change this condition to check if initialPage is home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Home()), // Navigate to Home instead of AddressPage
-      );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('isLoggedIn', true);
+      prefs.setString('userId', userId);
+      prefs.setString('userName', userName);
+      prefs.setString('userEmail', userEmail);
+      prefs.setString('accessToken', accessToken);
+      prefs.setString('userPhone', userPhone);
+
+      if (widget.initialPage == 'home') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      }
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Home()), // Navigate to AddressPage as before
+      print('Login Failed: ${response.reasonPhrase}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login Failed: ${response.reasonPhrase}')),
       );
     }
-  } else {
-    // Handle failed login
-    print('Login Failed: ${response.reasonPhrase}');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Login Failed: ${response.reasonPhrase}')),
-    );
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +78,6 @@ class _LoginState extends State<Login> {
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
-              
               children: [
                 SizedBox(height: 100),
                 ClipOval(
@@ -144,7 +139,6 @@ class _LoginState extends State<Login> {
                                   controller: phoneController,
                                   keyboardType: TextInputType.phone,
                                   decoration: InputDecoration(
-                                    
                                     border: InputBorder.none,
                                   ),
                                 ),
@@ -178,7 +172,7 @@ class _LoginState extends State<Login> {
                       //             controller: passwordController,
                       //             obscureText: true,
                       //             decoration: InputDecoration(
-                                   
+
                       //               border: InputBorder.none,
                       //             ),
                       //           ),

@@ -16,7 +16,7 @@ class TodayDeal extends StatefulWidget {
 
 class _TodayDealState extends State<TodayDeal> {
   List<Product> todaydealProducts = [];
-  bool isLoading = false; // Add isLoading variable
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -26,7 +26,7 @@ class _TodayDealState extends State<TodayDeal> {
 
   Future<void> fetchTodaydealProducts(String locationId) async {
     setState(() {
-      isLoading = true; // Set isLoading to true when API call starts
+      isLoading = true; 
     });
 
     final String todaydealProductsUrl =
@@ -60,7 +60,7 @@ class _TodayDealState extends State<TodayDeal> {
       print('Error fetching featured products: $error');
     } finally {
       setState(() {
-        isLoading = false; // Set isLoading to false when API call ends
+        isLoading = false;
       });
     }
   }
@@ -75,7 +75,7 @@ class _TodayDealState extends State<TodayDeal> {
           style: TextStyle(color: Color.fromARGB(255, 4, 74, 131)),
         ),
       ),
-      body: isLoading // Display loader if isLoading is true
+      body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )

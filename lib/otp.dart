@@ -64,7 +64,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     Row(
                       children: [
                         OtpBox(controller: _controllers[i]),
-                        SizedBox(width: 10), // Adjust width as needed
+                        SizedBox(width: 10),
                       ],
                     ),
                 ],
@@ -78,7 +78,8 @@ class _OtpScreenState extends State<OtpScreen> {
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
-                  _otp = _controllers.map((controller) => controller.text).join();
+                  _otp =
+                      _controllers.map((controller) => controller.text).join();
                   _verifyOTP(_otp);
                 },
                 style: ElevatedButton.styleFrom(
@@ -115,8 +116,8 @@ class _OtpBoxState extends State<OtpBox> {
   Widget build(BuildContext context) {
     return Container(
       width: 40,
-      height: 60, // Adjusted height to provide space between boxes
-      margin: EdgeInsets.symmetric(horizontal: 4), // Added margin for spacing
+      height: 60,
+      margin: EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromARGB(255, 8, 69, 119), width: 2),
         borderRadius: BorderRadius.circular(10),
@@ -126,10 +127,9 @@ class _OtpBoxState extends State<OtpBox> {
           controller: widget.controller,
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
-          cursorColor: Colors.black, // Set cursor color
-          showCursor: true, // Ensure cursor is shown
-           cursorHeight: 20,
-        
+          cursorColor: Colors.black,
+          showCursor: true,
+          cursorHeight: 20,
           onChanged: (value) {
             if (value.isNotEmpty) {
               FocusScope.of(context).nextFocus();
@@ -139,7 +139,7 @@ class _OtpBoxState extends State<OtpBox> {
           decoration: InputDecoration(
             counter: Offstage(),
             border: InputBorder.none,
-            contentPadding: EdgeInsets.zero, // Remove default padding
+            contentPadding: EdgeInsets.zero,
           ),
         ),
       ),
@@ -159,7 +159,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.white),
       ),
       centerTitle: true,
-      shape: CustomShapeBorder(), // Set custom shape here
+      shape: CustomShapeBorder(),
       flexibleSpace: Container(
         height: _preferredHeight,
         child: Center(
